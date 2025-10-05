@@ -15,6 +15,8 @@ import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.AccountCircle
+import androidx.compose.material.icons.filled.StarBorder
+import androidx.compose.material.icons.rounded.FavoriteBorder
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.HorizontalDivider
@@ -28,6 +30,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextOverflow
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
@@ -42,7 +45,7 @@ import com.nguyen.jetreader.components.TitleSection
 import com.nguyen.jetreader.model.Book
 import com.nguyen.jetreader.navigation.ReaderScreens
 
-@Preview
+// @Preview
 @Composable
 fun HomeScreen(navController: NavController = NavController(LocalContext.current)) {
     Scaffold(
@@ -130,14 +133,56 @@ fun ListCard(
                         .padding(4.dp)
                 )
                 Spacer(modifier = Modifier.width(50.dp))
-                Column {
-
+                Column(
+                    modifier = Modifier.padding(top = 25.dp),
+                    verticalArrangement = Arrangement.Center,
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    Icon(
+                        imageVector = Icons.Rounded.FavoriteBorder,
+                        contentDescription = "Favorite",
+                        modifier = Modifier.padding(bottom = 1.dp)
+                    )
+                    BookRating(score = 3.5)
                 }
             }
+            Text(
+                text = book.title,
+                modifier = Modifier.padding(4.dp),
+                fontWeight = FontWeight.Bold,
+                maxLines = 2,
+                overflow = TextOverflow.Ellipsis
+            )
+            Text(
+                text = "Authors: ${book.authors}",
+                modifier = Modifier.padding(4.dp),
+                style = MaterialTheme.typography.bodySmall
+            )
         }
+    }
+
+    @Composable
+    fun ReadingRightNow(listOfBooks: List<Book>, navController: NavController) {
     }
 }
 
 @Composable
-fun ReadingRightNow(listOfBooks: List<Book>, navController: NavController) {
+fun BookRating(score: Double = 4.5) {
+    Surface(
+        modifier = Modifier
+            .height(70.dp)
+            .padding(4.dp),
+        shape = RoundedCornerShape(56.dp),
+        shadowElevation = 6.dp,
+        color = Color.White,
+    ) {
+        Column(modifier = Modifier.padding(4.dp)) {
+            Icon(
+                imageVector = Icons.Filled.StarBorder,
+                contentDescription = "star",
+                modifier = Modifier.padding(3.dp)
+            )
+            Text(text = score.toString(), style = MaterialTheme.typography.bodySmall)
+        }
+    }
 }

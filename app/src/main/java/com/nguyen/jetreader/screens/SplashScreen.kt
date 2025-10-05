@@ -20,17 +20,14 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.platform.LocalContext
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.core.animation.OvershootInterpolator
 import androidx.navigation.NavHostController
 import com.nguyen.jetreader.navigation.ReaderScreens
 import kotlinx.coroutines.delay
 
-@Preview
 @Composable
-fun SplashScreen(navController: NavHostController = NavHostController(LocalContext.current)) {
+fun SplashScreen(navController: NavHostController) {
     val scaleState = remember { Animatable(0f) }
 
     LaunchedEffect(key1 = true) {

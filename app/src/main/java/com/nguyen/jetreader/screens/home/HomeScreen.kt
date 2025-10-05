@@ -1,8 +1,11 @@
 package com.nguyen.jetreader.screens.home
 
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
@@ -24,30 +27,47 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.FontStyle
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
+import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
+import com.nguyen.jetreader.model.Book
 import com.nguyen.jetreader.navigation.ReaderScreens
 
+@Preview
 @Composable
-fun HomeScreen(navController: NavHostController) {
+fun HomeScreen(navController: NavController = NavController(LocalContext.current)) {
     Scaffold(
         topBar = {
             ReaderAppBar(title = "Bookworm", navController = navController)
         },
         floatingActionButton = { FABContent {} }
     ) {
-        Surface(modifier = Modifier.fillMaxSize()) {}
+        Surface(modifier = Modifier.fillMaxSize()) {
+            HomeContent(navController)
+        }
+    }
+}
+
+@Composable
+fun HomeContent(navController: NavController) {
+    Column(modifier = Modifier.padding(2.dp), verticalArrangement = Arrangement.SpaceEvenly) {
+        Row(modifier = Modifier.align(alignment = Alignment.Start)) {
+            TitleSection(title = "Your reading \n activity right now...")
+        }
     }
 }
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReaderAppBar(title: String, showProfile: Boolean = true, navController: NavHostController) {
+fun ReaderAppBar(title: String, showProfile: Boolean = true, navController: NavController) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -76,11 +96,33 @@ fun ReaderAppBar(title: String, showProfile: Boolean = true, navController: NavH
                     }
                 },
             ) {
-                Icon(imageVector = Icons.AutoMirrored.Filled.Logout, contentDescription = "Logout")
+                Icon(
+                    imageVector = Icons.AutoMirrored.Filled.Logout,
+                    contentDescription = "Logout",
+                    tint = Color.Green.copy(0.4f)
+                )
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),
     )
+}
+
+@Composable
+fun ReadingRightNow(listOfBooks: List<Book>, navController: NavController) {
+}
+
+@Composable
+fun TitleSection(modifier: Modifier = Modifier, title: String) {
+    Surface(modifier = modifier.padding(start = 5.dp, top = 1.dp)) {
+        Column {
+            Text(
+                text = title,
+                fontSize = 19.sp,
+                fontStyle = FontStyle.Normal,
+                textAlign = TextAlign.Left
+            )
+        }
+    }
 }
 
 @Composable

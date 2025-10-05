@@ -8,6 +8,7 @@ import androidx.lifecycle.viewModelScope
 import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
+import com.google.firebase.firestore.firestore
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -19,12 +20,14 @@ class LoginViewModel : ViewModel() {
         if (_loading.value == false) {
             _loading.value = true
             auth.createUserWithEmailAndPassword(email, password)
-                .addOnCompleteListener {
-                    if (it.isSuccessful) {
-                        Log.d("TAGG", "createUserWithEmailAndPassword successful: ${it.result}")
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        // extract displayName from the email
+                        val displayName = task.result.user?.email?.split('@')?.get(0)
+                        createUser(displayName)
                         home()
                     } else {
-                        Log.d("TAGG", "createUserWithEmailAndPassword failed: ${it.result}")
+                        Log.d("TAGG", "createUser FAILED: ${task.result}")
                     }
                     _loading.value = false
                 }
@@ -37,10 +40,10 @@ class LoginViewModel : ViewModel() {
                 auth.signInWithEmailAndPassword(email, password)
                     .addOnCompleteListener { task ->
                         if (task.isSuccessful) {
-                            Log.d("TAGG", "signInWithEmailAndPassword successful: ${task.result}")
+                            Log.d("TAGG", "signIn SUCCESSFUL: ${task.result}")
                             home()
                         } else {
-                            Log.d("TAGG", "signInWithEmailAndPassword failed: ${task.result}")
+                            Log.d("TAGG", "signIn FAILED: ${task.result}")
                         }
                         _loading.value = false
                     }
@@ -49,4 +52,14 @@ class LoginViewModel : ViewModel() {
                 Log.d("TAGG", "signInWithEmailAndPassword exception: ${e.message}")
             }
         }
+
+    private fun LoginViewModel.createUser(displayName: String?) {
+        // extract userId from Auth
+        val userId = auth.currentUser?.uid
+        val user = mutableMapOf<String, Any>()
+        user["user_id"] = userId.toString()
+        user["display_name"] = displayName.toString()
+        Firebase.firestore.collection("users")
+            .add(user)
+    }
 }

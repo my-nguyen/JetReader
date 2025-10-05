@@ -9,6 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
+import com.nguyen.jetreader.model.Usery
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -56,9 +57,14 @@ class LoginViewModel : ViewModel() {
     private fun LoginViewModel.createUser(displayName: String?) {
         // extract userId from Auth
         val userId = auth.currentUser?.uid
-        val user = mutableMapOf<String, Any>()
-        user["user_id"] = userId.toString()
-        user["display_name"] = displayName.toString()
+        val user = Usery(
+            userId = userId.toString(),
+            displayName = displayName.toString(),
+            avatarUrl = "",
+            quote = "Life is great",
+            profession = "Android Developer",
+            id = null
+        ).toMap()
         Firebase.firestore.collection("users")
             .add(user)
     }

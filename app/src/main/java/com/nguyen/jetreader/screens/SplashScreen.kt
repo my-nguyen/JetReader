@@ -44,10 +44,11 @@ fun SplashScreen(navController: NavHostController) {
         delay(1000L)
 
         // check if user is already logged in
-        navController.navigate(
+        /*navController.navigate(
             route = if (Firebase.auth.currentUser?.email.isNullOrEmpty()) ReaderScreens.LoginScreen.name
             else ReaderScreens.HomeScreen.name
-        )
+        )*/
+        navController.navigate(ReaderScreens.LoginScreen.name)
     }
 
     Surface(

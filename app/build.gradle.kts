@@ -52,7 +52,6 @@ dependencies {
     implementation(libs.androidx.compose.ui.graphics)
     implementation(libs.androidx.compose.ui.tooling.preview)
     implementation(libs.androidx.compose.material3)
-    implementation(libs.androidx.core.animation)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -68,4 +67,6 @@ dependencies {
     kapt(libs.hilt.compiler)
     implementation(libs.coil.compose)
     implementation(libs.navigation.compose)
+    implementation(libs.core.animation)
+    implementation(libs.material.icons.extended)
 }

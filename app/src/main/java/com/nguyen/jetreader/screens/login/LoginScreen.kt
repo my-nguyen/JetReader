@@ -62,6 +62,9 @@ fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = vi
             } else {
                 UserForm(loading = false, isCreateAccount = true) { email, password ->
                     Log.d("TAGG", "LoginScreen, Email: $email, Password: $password")
+                    viewModel.createUserWithEmailAndPassword(email, password) {
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
                 }
             }
         }

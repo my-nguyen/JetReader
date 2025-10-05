@@ -15,7 +15,20 @@ class LoginViewModel : ViewModel() {
     private val _loading = MutableLiveData(false)
     val loading: LiveData<Boolean> = _loading
 
-    fun createUser(email: String, password: String, home: () -> Unit) {
+    fun createUserWithEmailAndPassword(email: String, password: String, home: () -> Unit) {
+        if (_loading.value == false) {
+            _loading.value = true
+            auth.createUserWithEmailAndPassword(email, password)
+                .addOnCompleteListener {
+                    if (it.isSuccessful) {
+                        Log.d("TAGG", "createUserWithEmailAndPassword successful: ${it.result}")
+                        home()
+                    } else {
+                        Log.d("TAGG", "createUserWithEmailAndPassword failed: ${it.result}")
+                    }
+                    _loading.value = false
+                }
+        }
     }
 
     fun signInWithEmailAndPassword(email: String, password: String, home: () -> Unit) =

@@ -23,6 +23,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.animation.OvershootInterpolator
 import androidx.navigation.NavHostController
+import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.nguyen.jetreader.components.Logo
 import com.nguyen.jetreader.navigation.ReaderScreens
 import kotlinx.coroutines.delay
@@ -40,7 +42,12 @@ fun SplashScreen(navController: NavHostController) {
             )
         )
         delay(1000L)
-        navController.navigate(ReaderScreens.LoginScreen.name)
+
+        // check if user is already logged in
+        navController.navigate(
+            route = if (Firebase.auth.currentUser?.email.isNullOrEmpty()) ReaderScreens.LoginScreen.name
+            else ReaderScreens.HomeScreen.name
+        )
     }
 
     Surface(

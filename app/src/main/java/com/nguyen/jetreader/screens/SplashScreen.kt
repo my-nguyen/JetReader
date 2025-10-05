@@ -23,6 +23,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.animation.OvershootInterpolator
 import androidx.navigation.NavHostController
+import com.nguyen.jetreader.components.Logo
 import com.nguyen.jetreader.navigation.ReaderScreens
 import kotlinx.coroutines.delay
 
@@ -56,11 +57,7 @@ fun SplashScreen(navController: NavHostController) {
             horizontalAlignment = Alignment.CenterHorizontally,
             verticalArrangement = Arrangement.Center
         ) {
-            Text(
-                "Reader App",
-                style = MaterialTheme.typography.displayMedium,
-                color = Color.Red.copy(0.5f)
-            )
+            Logo()
             Spacer(modifier = Modifier.height(15.dp))
             Text(
                 "\"Read. Change. Yourself\"",

@@ -1,8 +1,9 @@
 package com.nguyen.jetreader.screens.login
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 
 @Composable
-fun LoginScreen() {
+fun LoginScreen(navController: NavHostController) {
 
 }

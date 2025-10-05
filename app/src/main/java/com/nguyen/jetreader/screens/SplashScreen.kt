@@ -1,8 +1,9 @@
 package com.nguyen.jetreader.screens
 
 import androidx.compose.runtime.Composable
+import androidx.navigation.NavHostController
 
 @Composable
-fun SplashScreen() {
+fun SplashScreen(navController: NavHostController) {
 
 }

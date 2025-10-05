@@ -1,5 +1,6 @@
 package com.nguyen.jetreader.screens.login
 
+import android.util.Log
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
@@ -17,12 +18,14 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.focus.FocusRequester
+import androidx.compose.ui.focus.focusRequester
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.navigation.NavHostController
 import com.nguyen.jetreader.components.EmailInput
 import com.nguyen.jetreader.components.Logo
+import com.nguyen.jetreader.components.PasswordInput
 
 @Composable
 fun LoginScreen(navController: NavHostController) {
@@ -32,13 +35,20 @@ fun LoginScreen(navController: NavHostController) {
             verticalArrangement = Arrangement.Top
         ) {
             Logo()
+            UserForm(loading = false, isCreateAccount = false) { email, password ->
+                Log.d("TAGG", "LoginScreen, Email: $email, Password: $password")
+            }
         }
     }
 }
 
 @Preview
 @Composable
-fun UserForm() {
+fun UserForm(
+    loading: Boolean = false,
+    isCreateAccount: Boolean = false,
+    onDone: (String, String) -> Unit = { _, _ -> }
+) {
     val email = rememberSaveable { mutableStateOf("") }
     val password = rememberSaveable { mutableStateOf("") }
     val passwordVisibility = rememberSaveable { mutableStateOf(false) }
@@ -57,8 +67,19 @@ fun UserForm() {
     ) {
         EmailInput(
             emailState = email,
-            enabled = true,
+            enabled = !loading,
             onAction = KeyboardActions { passwordFocusRequest.requestFocus() }
+        )
+        PasswordInput(
+            modifier = Modifier.focusRequester(passwordFocusRequest),
+            passwordState = password,
+            labelId = "Password",
+            enabled = !loading,
+            passwordVisibility = passwordVisibility,
+            onAction = KeyboardActions {
+                if (!valid) return@KeyboardActions
+                onDone(email.value.trim(), password.value.trim())
+            }
         )
     }
 }

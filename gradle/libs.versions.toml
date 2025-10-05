@@ -30,8 +30,8 @@ androidx-compose-ui-test-manifest = { group = "androidx.compose.ui", name = "ui-
 androidx-compose-ui-test-junit4 = { group = "androidx.compose.ui", name = "ui-test-junit4" }
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3" }
 firebase-bom = { group = "com.google.firebase", name = "firebase-bom", version = "34.3.0" }
-firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore", version = "26.0.1" }
-firebase-auth = { group = "com.google.android.gms", name = "firebase-auth", version = "24.0.1" }
+firebase-firestore = { group = "com.google.firebase", name = "firebase-firestore" }
+firebase-auth = { group = "com.google.firebase", name = "firebase-auth" }
 hilt-android = { group = "com.google.dagger", name = "hilt-android", version.ref = "hilt" }
 hilt-compiler = { group = "com.google.dagger", name = "hilt-compiler", version.ref = "hilt" }
 coil-compose = { group = "io.coil-kt", name = "coil-compose", version.ref = "coil" }

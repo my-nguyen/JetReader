@@ -39,7 +39,7 @@ fun SplashScreen(navController: NavHostController) {
                 easing = { OvershootInterpolator(8f).getInterpolation(it) }
             )
         )
-        delay(2000L)
+        delay(1000L)
         navController.navigate(ReaderScreens.LoginScreen.name)
     }
 

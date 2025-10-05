@@ -34,14 +34,16 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavHostController
 import com.nguyen.jetreader.R
 import com.nguyen.jetreader.components.EmailInput
 import com.nguyen.jetreader.components.Logo
 import com.nguyen.jetreader.components.PasswordInput
+import com.nguyen.jetreader.navigation.ReaderScreens
 
 @Composable
-fun LoginScreen(navController: NavHostController) {
+fun LoginScreen(navController: NavHostController, viewModel: LoginViewModel = viewModel()) {
     val showLoginForm = rememberSaveable { mutableStateOf(true) }
 
     Surface(modifier = Modifier.fillMaxSize()) {
@@ -53,6 +55,9 @@ fun LoginScreen(navController: NavHostController) {
             if (showLoginForm.value) {
                 UserForm(loading = false, isCreateAccount = false) { email, password ->
                     Log.d("TAGG", "LoginScreen, Email: $email, Password: $password")
+                    viewModel.signInWithEmailAndPassword(email, password) {
+                        navController.navigate(ReaderScreens.HomeScreen.name)
+                    }
                 }
             } else {
                 UserForm(loading = false, isCreateAccount = true) { email, password ->

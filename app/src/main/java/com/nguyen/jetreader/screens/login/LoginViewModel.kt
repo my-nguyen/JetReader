@@ -18,19 +18,22 @@ class LoginViewModel : ViewModel() {
     fun createUser(email: String, password: String, home: () -> Unit) {
     }
 
-    fun signInWithEmailAndPassword(email: String, password: String) = viewModelScope.launch {
-        try {
-            auth.signInWithEmailAndPassword(email, password).addOnCompleteListener { task ->
-                if (task.isSuccessful) {
-                    TODO("Navigate to Home Screen")
-                } else {
-                    Log.d("TAGG", "signInWithEmailAndPassword unsuccessful: ${task.result}")
-                }
-                _loading.value = false
+    fun signInWithEmailAndPassword(email: String, password: String, home: () -> Unit) =
+        viewModelScope.launch {
+            try {
+                auth.signInWithEmailAndPassword(email, password)
+                    .addOnCompleteListener { task ->
+                        if (task.isSuccessful) {
+                            Log.d("TAGG", "signInWithEmailAndPassword successful: ${task.result}")
+                            home()
+                        } else {
+                            Log.d("TAGG", "signInWithEmailAndPassword failed: ${task.result}")
+                        }
+                        _loading.value = false
+                    }
+            } catch (e: Exception) {
+                e.printStackTrace()
+                Log.d("TAGG", "signInWithEmailAndPassword exception: ${e.message}")
             }
-        } catch (e: Exception) {
-            e.printStackTrace()
-            Log.d("TAGG", "signInWithEmailAndPassword exception: ${e.message}")
         }
-    }
 }

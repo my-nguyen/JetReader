@@ -2,9 +2,9 @@ package com.nguyen.jetreader.screens.stats
 
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 
 @Composable
-fun StatsScreen(navController: NavHostController) {
+fun StatsScreen(navController: NavController) {
     Text("Stats Screen")
 }

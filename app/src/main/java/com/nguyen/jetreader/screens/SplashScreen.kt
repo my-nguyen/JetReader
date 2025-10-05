@@ -22,7 +22,7 @@ import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.core.animation.OvershootInterpolator
-import androidx.navigation.NavHostController
+import androidx.navigation.NavController
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.nguyen.jetreader.components.Logo
@@ -30,7 +30,7 @@ import com.nguyen.jetreader.navigation.ReaderScreens
 import kotlinx.coroutines.delay
 
 @Composable
-fun SplashScreen(navController: NavHostController) {
+fun SplashScreen(navController: NavController) {
     val scaleState = remember { Animatable(0f) }
 
     LaunchedEffect(key1 = true) {

@@ -3,6 +3,7 @@ package com.nguyen.jetreader.components
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
@@ -40,6 +41,7 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
 import androidx.compose.ui.draw.scale
 import androidx.compose.ui.graphics.Color
+import androidx.compose.ui.graphics.vector.ImageVector
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontStyle
@@ -176,7 +178,13 @@ fun TitleSection(modifier: Modifier = Modifier, title: String) {
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Composable
-fun ReaderAppBar(title: String, showProfile: Boolean = true, navController: NavController) {
+fun ReaderAppBar(
+    icon: ImageVector? = null,
+    title: String,
+    showProfile: Boolean = true,
+    navController: NavController,
+    onBackArrow: () -> Unit = {}
+) {
     TopAppBar(
         title = {
             Row(verticalAlignment = Alignment.CenterVertically) {
@@ -189,12 +197,21 @@ fun ReaderAppBar(title: String, showProfile: Boolean = true, navController: NavC
                             .scale(0.9f)
                     )
                 }
+                if (icon != null) {
+                    Icon(
+                        imageVector = icon,
+                        contentDescription = "Arrow back",
+                        tint = Color.Red.copy(alpha = 0.7f),
+                        modifier = Modifier.clickable { onBackArrow.invoke() }
+                    )
+                }
+
+                Spacer(modifier = Modifier.width(40.dp))
                 Text(
                     text = title,
                     color = Color.Red.copy(alpha = 0.7f),
                     style = TextStyle(fontWeight = FontWeight.Bold, fontSize = 20.sp)
                 )
-                Spacer(modifier = Modifier.width(150.dp))
             }
         },
         actions = {
@@ -205,11 +222,15 @@ fun ReaderAppBar(title: String, showProfile: Boolean = true, navController: NavC
                     }
                 },
             ) {
-                Icon(
-                    imageVector = Icons.AutoMirrored.Filled.Logout,
-                    contentDescription = "Logout",
-                    // tint = Color.Green.copy(0.4f)
-                )
+                if (showProfile) {
+                    Row {
+                        Icon(
+                            imageVector = Icons.AutoMirrored.Filled.Logout,
+                            contentDescription = "Logout",
+                        )
+                    }
+                } else
+                    Box {}
             }
         },
         colors = TopAppBarDefaults.topAppBarColors(containerColor = Color.Transparent),

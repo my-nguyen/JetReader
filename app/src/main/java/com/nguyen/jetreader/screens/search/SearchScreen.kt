@@ -70,7 +70,7 @@ fun SearchScreen(navController: NavController, viewModel: SearchViewModel = hilt
                     Log.d("TAGG", "SearchScreen query: $query")
                 }
                 Spacer(modifier = Modifier.height(13.dp))
-                BookListArea(navController)
+                BookListArea(navController, viewModel)
             }
         }
     }
@@ -104,7 +104,7 @@ fun SearchForm(
 }
 
 @Composable
-fun BookListArea(navController: NavController) {
+fun BookListArea(navController: NavController, viewModel: SearchViewModel) {
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
         items(items = BOOKS) { book ->
             BookRow(book, navController)

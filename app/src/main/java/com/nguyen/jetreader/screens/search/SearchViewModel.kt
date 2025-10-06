@@ -5,10 +5,11 @@ import androidx.compose.runtime.MutableState
 import androidx.compose.runtime.mutableStateOf
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.nguyen.jetreader.data.MyResult
+import com.nguyen.jetreader.data.Resource
 import com.nguyen.jetreader.model.Book
 import com.nguyen.jetreader.repository.Repository
 import dagger.hilt.android.lifecycle.HiltViewModel
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 import javax.inject.Inject
 
@@ -21,14 +22,18 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
     }
 
     fun searchBooks(query: String) {
-        viewModelScope.launch {
+        viewModelScope.launch(Dispatchers.Default) {
             if (query.isEmpty()) return@launch
 
-            val data = repository.getAllBooks(query)
-            when (data) {
-                is MyResult.Success -> books.value = data.data
-                is MyResult.Error -> Log.d("TAGG", "searchBooks: ${data.exception}")
-                else -> {}
+            try {
+                val data = repository.getAllBooks(query)
+                when (data) {
+                    is Resource.Success -> books.value = data.data!!
+                    is Resource.Error -> Log.d("TAGG", "searchBooks: FAILED")
+                    else -> {}
+                }
+            } catch (e: Exception) {
+                Log.d("TAGG", "searchBooks: Exception ${e.message}")
             }
         }
     }

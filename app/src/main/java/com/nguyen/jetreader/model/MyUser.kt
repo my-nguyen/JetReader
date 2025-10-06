@@ -1,6 +1,6 @@
 package com.nguyen.jetreader.model
 
-data class Usery(
+data class MyUser(
     val id: String?,
     val userId: String,
     val displayName: String,

@@ -59,9 +59,9 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
-import com.nguyen.jetreader.model.Book
+import com.nguyen.jetreader.model.MyBook
 import com.nguyen.jetreader.navigation.ReaderScreens
-import com.nguyen.jetreader.utils.sampleUrl
+import com.nguyen.jetreader.utils.Constants.IMAGE_URL
 
 
 @Composable
@@ -277,7 +277,7 @@ fun BookRating(score: Double = 4.5) {
 @Preview
 @Composable
 fun ListCard(
-    book: Book = Book("id", "The Client", "John Grisham", "thriller"),
+    book: MyBook = MyBook("id", "The Client", "John Grisham", "thriller"),
     onPressDetails: (String) -> Unit = {}
 ) {
     val context = LocalContext.current
@@ -302,7 +302,7 @@ fun ListCard(
         ) {
             Row(horizontalArrangement = Arrangement.Center) {
                 Image(
-                    painter = rememberAsyncImagePainter(sampleUrl),
+                    painter = rememberAsyncImagePainter(IMAGE_URL),
                     contentDescription = "Book Image",
                     modifier = Modifier
                         .height(140.dp)

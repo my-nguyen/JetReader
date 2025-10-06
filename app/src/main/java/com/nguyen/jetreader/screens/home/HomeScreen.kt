@@ -36,9 +36,9 @@ import com.nguyen.jetreader.components.FABContent
 import com.nguyen.jetreader.components.ListCard
 import com.nguyen.jetreader.components.ReaderAppBar
 import com.nguyen.jetreader.components.TitleSection
-import com.nguyen.jetreader.model.Book
+import com.nguyen.jetreader.model.MyBook
 import com.nguyen.jetreader.navigation.ReaderScreens
-import com.nguyen.jetreader.utils.sampleBooks
+import com.nguyen.jetreader.utils.Constants.BOOKS
 
 // @Preview
 @Composable
@@ -95,12 +95,12 @@ fun HomeContent(navController: NavController) {
         }
         ReadingRightNow(listOf(), navController)
         TitleSection(title = "Reading List")
-        BookListArea(sampleBooks, navController)
+        BookListArea(BOOKS, navController)
     }
 }
 
 @Composable
-fun BookListArea(books: List<Book>, navController: NavController) {
+fun BookListArea(books: List<MyBook>, navController: NavController) {
     HorizontalScrollable(books) {
         Log.d("TAGG", "BookListArea: $it")
         // TODO: onCardPressed, navigate to details
@@ -108,7 +108,7 @@ fun BookListArea(books: List<Book>, navController: NavController) {
 }
 
 @Composable
-fun HorizontalScrollable(books: List<Book>, onCardPressed: (String) -> Unit = {}) {
+fun HorizontalScrollable(books: List<MyBook>, onCardPressed: (String) -> Unit = {}) {
     val scrollState = rememberScrollState()
 
     Row(
@@ -126,6 +126,6 @@ fun HorizontalScrollable(books: List<Book>, onCardPressed: (String) -> Unit = {}
 }
 
 @Composable
-fun ReadingRightNow(listOfBooks: List<Book>, navController: NavController) {
+fun ReadingRightNow(listOfBooks: List<MyBook>, navController: NavController) {
     ListCard()
 }

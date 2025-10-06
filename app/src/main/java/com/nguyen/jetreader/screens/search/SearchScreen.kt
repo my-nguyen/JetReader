@@ -17,7 +17,7 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.text.KeyboardActions
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.MaterialTheme
@@ -40,10 +40,10 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.nguyen.jetreader.components.InputField
 import com.nguyen.jetreader.components.ReaderAppBar
-import com.nguyen.jetreader.model.Book
+import com.nguyen.jetreader.model.MyBook
 import com.nguyen.jetreader.navigation.ReaderScreens
-import com.nguyen.jetreader.utils.sampleBooks
-import com.nguyen.jetreader.utils.sampleUrl
+import com.nguyen.jetreader.utils.Constants.BOOKS
+import com.nguyen.jetreader.utils.Constants.IMAGE_URL
 
 @Preview
 @Composable
@@ -51,7 +51,7 @@ fun SearchScreen(navController: NavController = NavController(LocalContext.curre
     Scaffold(
         topBar = {
             ReaderAppBar(
-                icon = Icons.Default.ArrowBack,
+                icon = Icons.AutoMirrored.Filled.ArrowBack,
                 title = "Search Books",
                 showProfile = false,
                 navController = navController,
@@ -105,14 +105,14 @@ fun SearchForm(
 @Composable
 fun BookListArea(navController: NavController) {
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
-        items(items = sampleBooks) { book ->
+        items(items = BOOKS) { book ->
             BookRow(book, navController)
         }
     }
 }
 
 @Composable
-fun BookRow(book: Book, navController: NavController) {
+fun BookRow(book: MyBook, navController: NavController) {
     Card(
         modifier = Modifier
             .clickable { }
@@ -124,7 +124,7 @@ fun BookRow(book: Book, navController: NavController) {
     ) {
         Row(modifier = Modifier.padding(5.dp), verticalAlignment = Alignment.Top) {
             Image(
-                painter = rememberAsyncImagePainter(model = sampleUrl),
+                painter = rememberAsyncImagePainter(model = IMAGE_URL),
                 contentDescription = "Book Image",
                 modifier = Modifier
                     .width(80.dp)

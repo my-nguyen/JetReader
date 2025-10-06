@@ -69,4 +69,6 @@ dependencies {
     implementation(libs.navigation.compose)
     implementation(libs.core.animation)
     implementation(libs.material.icons.extended)
+    implementation(libs.retrofit)
+    implementation(libs.converter.gson)
 }

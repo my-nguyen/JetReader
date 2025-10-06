@@ -1,3 +1,12 @@
 package com.nguyen.jetreader.model
 
-data class Book(val id: String, val title: String, val authors: String, val notes: String)
+data class Book(
+    val accessInfo: AccessInfo,
+    val etag: String,
+    val id: String,
+    val kind: String,
+    val saleInfo: SaleInfo,
+    val searchInfo: SearchInfo,
+    val selfLink: String,
+    val volumeInfo: VolumeInfo
+)

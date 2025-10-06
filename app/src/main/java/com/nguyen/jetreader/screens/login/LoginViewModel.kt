@@ -9,7 +9,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
-import com.nguyen.jetreader.model.Usery
+import com.nguyen.jetreader.model.MyUser
 import kotlinx.coroutines.launch
 
 class LoginViewModel : ViewModel() {
@@ -57,7 +57,7 @@ class LoginViewModel : ViewModel() {
     private fun LoginViewModel.createUser(displayName: String?) {
         // extract userId from Auth
         val userId = auth.currentUser?.uid
-        val user = Usery(
+        val user = MyUser(
             userId = userId.toString(),
             displayName = displayName.toString(),
             avatarUrl = "",

@@ -44,7 +44,11 @@ import com.nguyen.jetreader.navigation.ReaderScreens
 fun HomeScreen(navController: NavController = NavController(LocalContext.current)) {
     Scaffold(
         topBar = { ReaderAppBar(title = "Bookworm", navController = navController) },
-        floatingActionButton = { FABContent {} }
+        floatingActionButton = {
+            FABContent {
+                navController.navigate(ReaderScreens.SearchScreen.name)
+            }
+        }
     ) { padding ->
         Surface(
             modifier = Modifier

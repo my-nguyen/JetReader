@@ -52,7 +52,6 @@ import androidx.compose.ui.text.input.PasswordVisualTransformation
 import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
@@ -274,12 +273,8 @@ fun BookRating(score: Double = 4.5) {
     }
 }
 
-@Preview
 @Composable
-fun ListCard(
-    book: MyBook = MyBook("id", "The Client", "John Grisham", "thriller"),
-    onPressDetails: (String) -> Unit = {}
-) {
+fun ListCard(book: MyBook, onPressDetails: (String) -> Unit = {}) {
     val context = LocalContext.current
     val resources = context.resources
     val displayMetrics = resources.displayMetrics
@@ -294,7 +289,7 @@ fun ListCard(
             .padding(16.dp)
             .height(242.dp)
             .width(202.dp)
-            .clickable { onPressDetails.invoke(book.title) },
+            .clickable { onPressDetails.invoke(book.title.toString()) },
     ) {
         Column(
             modifier = Modifier.width(screenWidth.dp - (spacing * 2)),
@@ -324,7 +319,7 @@ fun ListCard(
                 }
             }
             Text(
-                text = book.title,
+                text = book.title.toString(),
                 modifier = Modifier.padding(4.dp),
                 fontWeight = FontWeight.Bold,
                 maxLines = 2,

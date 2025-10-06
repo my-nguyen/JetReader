@@ -1,5 +1,6 @@
 package com.nguyen.jetreader.screens.detail
 
+import android.util.Log
 import androidx.compose.foundation.BorderStroke
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
@@ -36,6 +37,7 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.google.firebase.Firebase
+import com.google.firebase.auth.auth
 import com.google.firebase.firestore.firestore
 import com.nguyen.jetreader.components.ReaderAppBar
 import com.nguyen.jetreader.components.RoundedButton
@@ -89,7 +91,6 @@ fun DetailScreen(
 @Composable
 fun BookDetail(book: Book, navController: NavController) {
     val volumeInfo = book.volumeInfo
-    val bookId = book.id
 
     Card(
         modifier = Modifier.padding(34.dp),
@@ -124,10 +125,9 @@ fun BookDetail(book: Book, navController: NavController) {
     )
     Spacer(modifier = Modifier.height(5.dp))
 
-    val displayMetrics = LocalResources.current.displayMetrics
     Surface(
         modifier = Modifier
-            .height(displayMetrics.heightPixels.dp.times(0.09f))
+            .height(LocalResources.current.displayMetrics.heightPixels.dp.times(0.09f))
             .padding(4.dp),
         shape = RectangleShape,
         border = BorderStroke(1.dp, Color.DarkGray)
@@ -143,18 +143,46 @@ fun BookDetail(book: Book, navController: NavController) {
     }
     Row(modifier = Modifier.padding(top = 6.dp), horizontalArrangement = Arrangement.SpaceAround) {
         RoundedButton(label = "Save") {
-            val book = MyBook(bookId, volumeInfo.title, volumeInfo.authors.toString(), "")
-            saveToFirebase(book)
+            val book = MyBook(
+                title = volumeInfo.title,
+                authors = volumeInfo.authors.toString(),
+                description = volumeInfo.description,
+                categories = volumeInfo.categories.toString(),
+                notes = "",
+                photoUrl = volumeInfo.imageLinks.thumbnail,
+                publishedDate = volumeInfo.publishedDate,
+                pageCount = volumeInfo.pageCount.toString(),
+                rating = 0.0,
+                googleBookId = book.id,
+                userId = Firebase.auth.currentUser?.uid.toString()
+            )
+            saveToFirebase(book, navController)
         }
         Spacer(modifier = Modifier.width(25.dp))
-        RoundedButton(label = "Cancel")
-        {
+        RoundedButton(label = "Cancel") {
             navController.popBackStack()
         }
     }
 }
 
-private fun saveToFirebase(book: MyBook) {
+private fun saveToFirebase(book: MyBook, navController: NavController) {
     val database = Firebase.firestore
+    val collection = database.collection("books")
 
+    if (book.toString().isNotEmpty()) {
+        collection.add(book).addOnSuccessListener { documentRef ->
+            val docId = documentRef.id
+            collection.document(docId)
+                .update(hashMapOf("id" to docId) as Map<String, Any>)
+                .addOnCompleteListener { task ->
+                    if (task.isSuccessful) {
+                        navController.popBackStack()
+                    }
+                }.addOnFailureListener {
+                    Log.d("TAGG", "SaveToFirebase: Error updating document Id", it)
+                }
+        }
+    } else {
+        TODO("Handle error")
+    }
 }

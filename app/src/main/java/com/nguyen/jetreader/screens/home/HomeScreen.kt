@@ -127,5 +127,5 @@ fun HorizontalScrollable(books: List<MyBook>, onCardPressed: (String) -> Unit = 
 
 @Composable
 fun ReadingRightNow(listOfBooks: List<MyBook>, navController: NavController) {
-    ListCard()
+    ListCard(MyBook("id", "The Client", "John Grisham", "thriller"))
 }

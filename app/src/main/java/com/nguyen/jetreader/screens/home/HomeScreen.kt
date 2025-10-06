@@ -38,6 +38,7 @@ import com.nguyen.jetreader.components.ReaderAppBar
 import com.nguyen.jetreader.components.TitleSection
 import com.nguyen.jetreader.model.Book
 import com.nguyen.jetreader.navigation.ReaderScreens
+import com.nguyen.jetreader.utils.sampleBooks
 
 // @Preview
 @Composable
@@ -62,39 +63,6 @@ fun HomeScreen(navController: NavController = NavController(LocalContext.current
 
 @Composable
 fun HomeContent(navController: NavController) {
-    val books = listOf(
-        Book(
-            id = "one",
-            title = "The Client",
-            authors = "John Grisham",
-            notes = "thriller"
-        ),
-        Book(
-            id = "two",
-            title = "The Rape of Nanking",
-            authors = "Iris Chang",
-            notes = "history"
-        ),
-        Book(
-            id = "three",
-            title = "Atomic Habit",
-            authors = "James Clear",
-            notes = "self-help"
-        ),
-        Book(
-            id = "four",
-            title = "Pale Blue Dot",
-            authors = "Carl Sagan",
-            notes = "universe"
-        ),
-        Book(
-            id = "four",
-            title = "A Brief History of Time",
-            authors = "Stephen W. Hawking",
-            notes = "science"
-        ),
-    )
-
     val email = Firebase.auth.currentUser?.email
     val currentUserName =
         if (!email.isNullOrEmpty()) Firebase.auth.currentUser?.email?.split('@')?.get(0)
@@ -127,7 +95,7 @@ fun HomeContent(navController: NavController) {
         }
         ReadingRightNow(listOf(), navController)
         TitleSection(title = "Reading List")
-        BookListArea(books, navController)
+        BookListArea(sampleBooks, navController)
     }
 }
 

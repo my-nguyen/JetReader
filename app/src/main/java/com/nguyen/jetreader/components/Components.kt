@@ -61,6 +61,7 @@ import com.google.firebase.Firebase
 import com.google.firebase.auth.auth
 import com.nguyen.jetreader.model.Book
 import com.nguyen.jetreader.navigation.ReaderScreens
+import com.nguyen.jetreader.utils.sampleUrl
 
 
 @Composable
@@ -301,7 +302,7 @@ fun ListCard(
         ) {
             Row(horizontalArrangement = Arrangement.Center) {
                 Image(
-                    painter = rememberAsyncImagePainter(""),
+                    painter = rememberAsyncImagePainter(sampleUrl),
                     contentDescription = "Book Image",
                     modifier = Modifier
                         .height(140.dp)

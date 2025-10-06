@@ -122,7 +122,9 @@ fun BookListArea(navController: NavController, viewModel: SearchViewModel = hilt
 fun BookRow(book: Book, navController: NavController) {
     Card(
         modifier = Modifier
-            .clickable { }
+            .clickable {
+                navController.navigate(ReaderScreens.DetailScreen.name + "/${book.id}")
+            }
             .fillMaxWidth()
             .height(100.dp)
             .padding(3.dp),

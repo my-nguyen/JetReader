@@ -10,6 +10,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.size
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
@@ -34,9 +35,13 @@ import androidx.core.text.HtmlCompat
 import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
+import com.google.firebase.Firebase
+import com.google.firebase.firestore.firestore
 import com.nguyen.jetreader.components.ReaderAppBar
+import com.nguyen.jetreader.components.RoundedButton
 import com.nguyen.jetreader.data.Resource
 import com.nguyen.jetreader.model.Book
+import com.nguyen.jetreader.model.MyBook
 import com.nguyen.jetreader.navigation.ReaderScreens
 
 @Composable
@@ -136,4 +141,20 @@ fun BookDetail(book: Book, navController: NavController) {
             }
         }
     }
+    Row(modifier = Modifier.padding(top = 6.dp), horizontalArrangement = Arrangement.SpaceAround) {
+        RoundedButton(label = "Save") {
+            val book = MyBook(bookId, volumeInfo.title, volumeInfo.authors.toString(), "")
+            saveToFirebase(book)
+        }
+        Spacer(modifier = Modifier.width(25.dp))
+        RoundedButton(label = "Cancel")
+        {
+            navController.popBackStack()
+        }
+    }
+}
+
+private fun saveToFirebase(book: MyBook) {
+    val database = Firebase.firestore
+
 }

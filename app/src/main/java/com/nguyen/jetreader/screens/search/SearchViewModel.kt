@@ -16,6 +16,7 @@ import javax.inject.Inject
 @HiltViewModel
 class SearchViewModel @Inject constructor(private val repository: Repository) : ViewModel() {
     val books: MutableState<List<Book>> = mutableStateOf(listOf())
+    val isLoading: MutableState<Boolean> = mutableStateOf(true)
 
     init {
         searchBooks("android")
@@ -28,11 +29,17 @@ class SearchViewModel @Inject constructor(private val repository: Repository) : 
             try {
                 val data = repository.getAllBooks(query)
                 when (data) {
-                    is Resource.Success -> books.value = data.data!!
+                    is Resource.Success -> {
+                        books.value = data.data!!
+                        if (books.value.isNotEmpty()) isLoading.value = false
+                    }
                     is Resource.Error -> Log.d("TAGG", "searchBooks: FAILED")
-                    else -> {}
+                    else -> {
+                        isLoading.value = false
+                    }
                 }
             } catch (e: Exception) {
+                isLoading.value = false
                 Log.d("TAGG", "searchBooks: Exception ${e.message}")
             }
         }

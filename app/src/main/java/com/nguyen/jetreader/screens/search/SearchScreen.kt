@@ -20,6 +20,7 @@ import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
+import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
@@ -105,9 +106,13 @@ fun SearchForm(
 @Composable
 fun BookListArea(navController: NavController, viewModel: SearchViewModel = hiltViewModel()) {
     val books = viewModel.books.value
-    LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
-        items(items = books) { book ->
-            BookRow(book, navController)
+    if (viewModel.isLoading.value)
+        LinearProgressIndicator()
+    else {
+        LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
+            items(items = books) { book ->
+                BookRow(book, navController)
+            }
         }
     }
 }

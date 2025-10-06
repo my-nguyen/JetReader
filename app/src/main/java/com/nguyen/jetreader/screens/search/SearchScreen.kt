@@ -39,9 +39,8 @@ import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.nguyen.jetreader.components.InputField
 import com.nguyen.jetreader.components.ReaderAppBar
-import com.nguyen.jetreader.model.MyBook
+import com.nguyen.jetreader.model.Book
 import com.nguyen.jetreader.navigation.ReaderScreens
-import com.nguyen.jetreader.utils.Constants.BOOKS
 import com.nguyen.jetreader.utils.Constants.IMAGE_URL
 
 @Composable
@@ -104,16 +103,17 @@ fun SearchForm(
 }
 
 @Composable
-fun BookListArea(navController: NavController, viewModel: SearchViewModel) {
+fun BookListArea(navController: NavController, viewModel: SearchViewModel = hiltViewModel()) {
+    val books = viewModel.books.value
     LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
-        items(items = BOOKS) { book ->
+        items(items = books) { book ->
             BookRow(book, navController)
         }
     }
 }
 
 @Composable
-fun BookRow(book: MyBook, navController: NavController) {
+fun BookRow(book: Book, navController: NavController) {
     Card(
         modifier = Modifier
             .clickable { }
@@ -124,8 +124,9 @@ fun BookRow(book: MyBook, navController: NavController) {
         elevation = CardDefaults.cardElevation(7.dp)
     ) {
         Row(modifier = Modifier.padding(5.dp), verticalAlignment = Alignment.Top) {
+            val imageUrl = book.volumeInfo.imageLinks.smallThumbnail.ifEmpty { IMAGE_URL }
             Image(
-                painter = rememberAsyncImagePainter(model = IMAGE_URL),
+                painter = rememberAsyncImagePainter(model = imageUrl),
                 contentDescription = "Book Image",
                 modifier = Modifier
                     .width(80.dp)
@@ -136,9 +137,9 @@ fun BookRow(book: MyBook, navController: NavController) {
                 modifier = Modifier.padding(2.dp),
                 horizontalAlignment = Alignment.Start
             ) {
-                Text(text = book.title, overflow = TextOverflow.Ellipsis)
+                Text(text = book.volumeInfo.title, overflow = TextOverflow.Ellipsis)
                 Text(
-                    text = "Author: ${book.authors}",
+                    text = "Author: ${book.volumeInfo.authors}",
                     overflow = TextOverflow.Clip,
                     style = MaterialTheme.typography.labelSmall
                 )

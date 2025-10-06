@@ -31,11 +31,10 @@ import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.RectangleShape
-import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.text.style.TextOverflow
-import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.hilt.navigation.compose.hiltViewModel
 import androidx.navigation.NavController
 import coil.compose.rememberAsyncImagePainter
 import com.nguyen.jetreader.components.InputField
@@ -45,9 +44,8 @@ import com.nguyen.jetreader.navigation.ReaderScreens
 import com.nguyen.jetreader.utils.Constants.BOOKS
 import com.nguyen.jetreader.utils.Constants.IMAGE_URL
 
-@Preview
 @Composable
-fun SearchScreen(navController: NavController = NavController(LocalContext.current)) {
+fun SearchScreen(navController: NavController, viewModel: SearchViewModel = hiltViewModel()) {
     Scaffold(
         topBar = {
             ReaderAppBar(
@@ -65,9 +63,11 @@ fun SearchScreen(navController: NavController = NavController(LocalContext.curre
                 SearchForm(
                     modifier = Modifier
                         .fillMaxWidth()
-                        .padding(16.dp)
-                ) {
-                    Log.d("TAGG", "SearchScreen: $it")
+                        .padding(16.dp),
+                    viewModel = viewModel
+                ) { query ->
+                    viewModel.searchBooks(query)
+                    Log.d("TAGG", "SearchScreen query: $query")
                 }
                 Spacer(modifier = Modifier.height(13.dp))
                 BookListArea(navController)
@@ -79,6 +79,7 @@ fun SearchScreen(navController: NavController = NavController(LocalContext.curre
 @Composable
 fun SearchForm(
     modifier: Modifier = Modifier,
+    viewModel: SearchViewModel,
     loading: Boolean = false,
     hint: String = "Search",
     onSearch: (String) -> Unit = {}

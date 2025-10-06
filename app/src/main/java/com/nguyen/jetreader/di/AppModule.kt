@@ -1,6 +1,7 @@
 package com.nguyen.jetreader.di
 
 import com.nguyen.jetreader.network.BookService
+import com.nguyen.jetreader.repository.Repository
 import com.nguyen.jetreader.utils.Constants.BASE_URL
 import dagger.Module
 import dagger.Provides
@@ -21,5 +22,11 @@ object AppModule {
             .addConverterFactory(GsonConverterFactory.create())
             .build()
             .create(BookService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRepository(bookService: BookService): Repository {
+        return Repository(bookService)
     }
 }

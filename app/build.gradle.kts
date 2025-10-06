@@ -71,4 +71,5 @@ dependencies {
     implementation(libs.material.icons.extended)
     implementation(libs.retrofit)
     implementation(libs.converter.gson)
+    implementation(libs.hilt.navigation.compose)
 }

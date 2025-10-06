@@ -3,6 +3,7 @@ package com.nguyen.jetreader.screens.search
 import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.clickable
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
@@ -107,9 +108,16 @@ fun SearchForm(
 @Composable
 fun BookListArea(navController: NavController, viewModel: SearchViewModel = hiltViewModel()) {
     val books = viewModel.books.value
-    if (viewModel.isLoading.value)
-        LinearProgressIndicator()
-    else {
+    if (viewModel.isLoading.value) {
+        Row(
+            modifier = Modifier.padding(end = 2.dp),
+            horizontalArrangement = Arrangement.SpaceBetween,
+            verticalAlignment = Alignment.CenterVertically
+        ) {
+            LinearProgressIndicator()
+            Text("Loading...")
+        }
+    } else {
         LazyColumn(modifier = Modifier.fillMaxSize(), contentPadding = PaddingValues(16.dp)) {
             items(items = books) { book ->
                 BookRow(book, navController)
